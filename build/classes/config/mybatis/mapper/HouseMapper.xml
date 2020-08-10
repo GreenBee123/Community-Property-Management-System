@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.HouseDao">
+	<!-- 住房信息模糊分页搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="House">
+		select 
+			house.id,
+			house.houseId,
+			house.name,
+			house.floor_area,
+			house.usable_floor_area,
+			house.statu,
+			house.userId AS 'user.id'
+		from 
+		house
+		 where 1 = 1 
+		<if test="name!=null">
+			and house.name like '%${name}%' 
+		</if>
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+		
+	<!-- 按照ID获取房屋信息 -->
+	<select id="findHouseById" parameterType="Long" resultType="House">
+		select 
+			house.id,
+			house.houseId,
+			house.name,
+			house.floor_area,
+			house.usable_floor_area,
+			house.statu,
+			house.userId AS 'user.id' 
+			from house 
+			where id=#{id}
+	
+	</select>
+	
+	<!-- 获按照用户获取住房信息 -->
+	<select id="findHouseByUserId" parameterType="Long" resultType="House">
+		select 
+			house.id,
+			house.houseId,
+			house.name,
+			house.floor_area,
+			house.usable_floor_area,
+			house.statu,
+			house.userId 
+			from house 
+			where userId=#{userId}
+	
+	</select>
+	
+	<!-- 包含模糊查询，获取查询菜单的总数量 -->
+	<select id="getTotal"  parameterType="Map" resultType="Integer">
+		select count(*) from house where 1 = 1  
+	</select>
+	
+	<!-- 住房插入操作 -->
+	<insert id="add" parameterType="House">
+		insert into house(id,houseId,name,floor_area,usable_floor_area,statu,userId)values(null,#{houseId},#{name},#{floor_area},#{usable_floor_area},#{statu},#{user.id}) 
+	</insert>
+	
+	<!-- 修改住房信息 -->
+	<update id="edit" parameterType="House">
+	update house set houseId=#{houseId},name=#{name},floor_area=#{floor_area},usable_floor_area=#{usable_floor_area},statu=#{statu},userId=#{user.id} where id=#{id}
+	</update>
+	
+	<!-- 删除住房信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from house where id=#{id}	
+	</delete>
+</mapper>

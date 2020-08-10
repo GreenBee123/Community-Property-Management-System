@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.VotingDao">
+	<!-- 住房信息模糊分页搜索查询 -->
+
+	<!-- 住房插入操作 -->
+	<insert id="add" parameterType="Voting">
+		insert into votinguser(id,userId,optionId,votingTime)values(null,#{userId},#{optionId},#{votingTime}) 
+	</insert>
+	<!-- 删除住房信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from votinguser where id=#{id}	
+	</delete>
+</mapper>

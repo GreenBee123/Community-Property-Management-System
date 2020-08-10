@@ -1,0 +1,46 @@
+.wrapper {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    background-color: aquamarine;
+}
+
+.content .option-item {
+
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 5px;
+}
+
+.content .option-item .deleteBtn {
+    color: #fff;
+    background-color: brown;
+    padding: 5px 8px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+
+}
+
+.content .option-item .deleteBtn:hover {
+    background-color: crimson;
+}
+
+.content .add-area .addBtn {
+    padding: 5px 8px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    background-color: green;
+    width: 50px;
+    height: 20px;
+    color: #fff;
+    line-height: 20px;
+    transition: all ease 0.1s;
+}
+
+.content .add-area .addBtn:hover {
+    background-color: rgb(4, 194, 4);
+
+}

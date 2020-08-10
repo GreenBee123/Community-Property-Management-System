@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.DecorateDao">
+	<!-- 装修信息模糊分页搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="Decorate">
+		select 
+			decorate.id,
+			decorate.houseId AS 'house.id',
+			decorate.applicationDate,
+			decorate.bail,
+			decorate.penalty,
+			decorate.statu,
+			decorate.decorationContent,
+			decorate.approvalTime,
+			decorate.examiner AS 'examiner.id',
+			decorate.remark 
+		from 
+		decorate 
+		 where 1 = 1 
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+		
+	<!-- 按照id获取装修信息信息 -->
+	<select id="findDecorateById" parameterType="Long" resultType="Decorate">
+		select * from decorate where id =#{id}
+	</select>
+	
+	
+	<!-- 包含模糊查询，获取查询装修信息的总数量 -->
+	<select id="getTotal"  parameterType="Map" resultType="Integer">
+		select count(*) from decorate where 1 = 1  
+	</select>
+	
+	<!-- 装修信息插入操作 -->
+	<insert id="add" parameterType="Decorate">
+		insert into decorate(id,houseId,applicationDate,bail,penalty,decorationContent,remark) 
+		values(null,#{house.id},#{applicationDate},#{bail},#{penalty},#{decorationContent},#{remark}) 
+	</insert>
+	
+	<!-- 修改装修信息 -->
+	<update id="edit" parameterType="Decorate">
+	update decorate set 
+	houseId=#{house.id},
+	applicationDate=#{applicationDate},
+	bail=#{bail},
+	penalty=#{penalty},
+	statu=#{statu},
+	decorationContent=#{decorationContent}, 
+	remark=#{remark} 
+	where id=#{id}
+	</update>
+	
+	<!-- 审批装修信息 -->
+	<update id="approval" parameterType="Decorate">
+	update decorate set 
+	statu=#{statu},
+	approvalTime=#{approvalTime},
+	examiner=#{examiner.id} 
+	where id=#{id}
+	</update>
+	
+	<!-- 删除装修信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from decorate where id=#{id}	
+	</delete>
+</mapper>

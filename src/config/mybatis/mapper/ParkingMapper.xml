@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.ParkingDao">
+	<!-- 停车位信息模糊分页搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="Parking">
+		select * from parking 
+		 where 1 = 1 
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+		
+	<!-- 按照ID获取停车位信息 -->
+	<select id="findParkingById" parameterType="Long" resultType="Parking">
+		select * from parking 
+			where id=#{parkingId}
+	</select>
+
+	
+	<!-- 包含模糊查询，获取查询停车位的总数量 -->
+	<select id="getTotal"  parameterType="Map" resultType="Integer">
+		select count(*) from parking where 1 = 1  
+	</select>
+	
+	<!-- 停车位插入操作 -->
+	<insert id="add" parameterType="Parking">
+		insert into parking(id,statu,category,presale_prices,prelease_prices,area)values(null,#{statu},#{category},#{presale_prices},#{prelease_prices},#{area}) 
+	</insert>
+	
+	<!-- 修改停车位信息 -->
+	<update id="edit" parameterType="Parking">
+	update parking set 
+	
+	<if test="category!=0">
+			category=#{category},
+	</if>
+	<if test="presale_prices!=0">
+			presale_prices=#{presale_prices},
+	</if>
+	<if test="prelease_prices!=0">
+			prelease_prices=#{prelease_prices},
+	</if>
+	<if test="area!=0">
+			area=#{area},
+	</if>
+			statu=#{statu}
+	 where id=#{id}
+	</update>
+	
+	<!-- 删除停车位信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from parking where id=#{parkingId}	
+	</delete>
+	
+	<!-- 停车位信息模糊分页搜索查询 -->
+	<select id="findSaleList" parameterType="Map" resultType="SaleParking">
+		select 
+		saleparking.id,
+		saleparking.saleId,
+		saleparking.userId AS 'user.id',
+		saleparking.parkingId AS 'parking.id',
+		saleparking.contact,
+		saleparking.license_number,
+		saleparking.sale_date 
+		 from saleparking 
+		 where 1 = 1 
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+	
+	<!-- 停车位插入操作 -->
+	<insert id="addSale" parameterType="SaleParking">
+		insert into saleparking(id,saleId,userId,parkingId,contact,license_number,sale_date)values(null,#{saleId},#{user.id},#{parking.id},#{contact},#{license_number},#{sale_date}) 
+	</insert>
+	
+	
+	<!-- 删除停车位信息 -->
+	<delete id="deleteSale" parameterType="Long">
+		delete from saleparking where id=#{saleParkingId}	
+	</delete>
+	
+	<!-- 按照ID获取停车位信息 -->
+	<select id="findSaleParkingById" parameterType="Long" resultType="SaleParking">
+		select 
+		saleparking.id,
+		saleparking.saleId,
+		saleparking.userId AS 'user.id',
+		saleparking.parkingId AS 'parking.id',
+		saleparking.contact,
+		saleparking.license_number,
+		saleparking.sale_date  from saleparking 
+			where id=#{saleParkingId}
+	</select>
+	
+</mapper>

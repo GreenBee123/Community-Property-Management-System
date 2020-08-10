@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.VoteTopicDao">
+	<!-- 住房信息模糊分页搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="VoteTopic">
+		select * from  votingtopic where 1 = 1 
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+		
+	<!-- 按照ID获取房屋信息 -->
+	<select id="findVoteTopicById" parameterType="Long" resultType="VoteTopic">
+		select 
+			*
+			from votingtopic
+			where id=#{voteTopicId}
+	</select>
+	
+		<!-- 按照ID获取房屋信息 -->
+	<select id="findVoteTopicByVoteProject" parameterType="Long" resultType="VoteTopic">
+		select 
+			*
+			from votingtopic
+			where projectId=#{voteProjectId}
+	</select>
+	
+	<!-- 包含模糊查询，获取查询菜单的总数量 -->
+	<select id="getTotal"  parameterType="Map" resultType="Integer">
+		select count(*) from votingtopic where 1 = 1  
+	</select>
+	
+	<!-- 住房插入操作 -->
+	<insert id="add" parameterType="VoteProject">
+		insert into votingtopic(id,projectId,topicName,category,topicVoteNumber)values(null,#{projectId},#{topicName},#{category},#{topicVoteNumber}) 
+	</insert>
+	
+	<!-- 修改住房信息 -->
+	<update id="edit" parameterType="VoteProject">
+	update votingtopic set projectId=#{projectId},topicName=#{topicName},category=#{category},topicVoteNumber=#{topicVoteNumber} where id=#{id}
+	</update>
+	
+	<!-- 删除住房信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from votingtopic where id=#{voteTopicId}	
+	</delete>
+</mapper>

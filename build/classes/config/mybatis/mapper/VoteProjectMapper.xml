@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.VoteProjectDao">
+	<!-- 住房信息模糊分页搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="VoteProject">
+		select * from  votingproject where 1 = 1 
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+	
+		<!-- 按照ID获取房屋信息 -->
+	<select id="findVoteProjectById" parameterType="Long" resultType="VoteProject">
+		select 
+			*
+			from votingproject
+			where id=#{voteProjectId}
+	</select>
+	
+	<!-- 包含模糊查询，获取查询菜单的总数量 -->
+	<select id="getTotal"  parameterType="Map" resultType="Integer">
+		select count(*) from votingproject where 1 = 1  
+	</select>
+	
+	<!-- 住房插入操作 -->
+	<insert id="add" parameterType="VoteProject">
+		insert into votingproject(id,projectName,startTime,endTime)values(null,#{projectName},#{startTime},#{endTime}) 
+	</insert>
+	
+	<!-- 修改住房信息 -->
+	<update id="edit" parameterType="VoteProject">
+	update votingproject set projectName=#{projectName},startTime=#{startTime},endTime=#{endTime} where id=#{id}
+	</update>
+	
+	<!-- 删除住房信息 -->
+	<delete id="delete" parameterType="Long">
+		delete from votingproject where id=#{voteProjectId}	
+	</delete>
+</mapper>

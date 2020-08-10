@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.programmer.dao.admin.FeeDao">
+	<!-- 装修信息模糊分页搜索查询 -->
+	<select id="findList" parameterType="Map" resultType="Fee">
+		select 
+			fee.id,
+			fee.houseId AS 'house.id',
+			fee.date 
+		from 
+		fee 
+		 where 1 = 1 
+		<if test="offset!=null and pagesize!=null">
+			limit #{offset},#{pagesize} 
+		</if>
+	</select>
+		
+	<!-- 包含模糊查询，获取查询装修信息的总数量 -->
+	<select id="getTotal"  parameterType="Map" resultType="Integer">
+		select count(*) from fee where 1 = 1  
+	</select>
+	
+	<!-- 装修信息插入操作 -->
+	<insert id="add" parameterType="Fee">
+		insert into fee(id,houseId,date) 
+		values(null,#{house.id},#{date}) 
+	</insert>
+	
+	<!-- 修改装修信息 -->
+	<update id="edit" parameterType="Fee">
+	update fee set 
+	date=#{date} 
+	where id=#{id}
+	</update>
+
+</mapper>
